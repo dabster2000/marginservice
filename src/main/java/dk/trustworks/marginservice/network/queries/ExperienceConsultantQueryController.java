@@ -10,6 +10,7 @@ import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.vertx.reactivex.ext.web.RoutingContext;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -55,7 +56,7 @@ public class ExperienceConsultantQueryController {
             experienceLevelRepository.getAllExperienceLevels().subscribe(experienceLevels -> {
                 ExperienceLevel experienceLevel = null;
                 for (ExperienceLevel experienceLevelTest : experienceLevels.stream().sorted(Comparator.comparingInt(ExperienceLevel::getSeniority)).collect(Collectors.toList())) {
-                    if(experienceConsultant.getSeniority() < experienceLevelTest.getSeniority()) break;
+                    if((LocalDate.now().getYear() - experienceConsultant.getSeniority()) < experienceLevelTest.getSeniority()) break;
                     experienceLevel = experienceLevelTest;
                 }
 
